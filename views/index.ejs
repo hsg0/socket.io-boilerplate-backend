@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
+  
+  <title>WebSocket Connect/Disconnect</title>
+</head>
+<body>
+    <div>
+  <h1 class="hello">Hello Sunny</h1>
+  <button class="connect">Connect</button>
+  <button class="disconnect">Disconnect</button>
+  <h2>This allows you to connect or disconnect from the websocket server.</h2>
+
+  <script>
+    // Create socket instance without autoConnect
+    const socket = io('http://localhost:3000', { autoConnect: false });
+
+    const connectBtn = document.querySelector('.connect');
+    const disconnectBtn = document.querySelector('.disconnect');
+
+    connectBtn.addEventListener('click', () => {
+      if (!socket.connected) {
+        socket.connect();
+        console.log('Attempting to connect...');
+      } else {
+        console.log('Already connected');
+      }
+    });
+
+    disconnectBtn.addEventListener('click', () => {
+      if (socket.connected) {
+        socket.disconnect();
+        console.log('Disconnected manually');
+      } else {
+        console.log('Already disconnected');
+      }
+    });
+
+    socket.on('connect', () => {
+      console.log('Connected to server, socket ID:', socket.id);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server');
+    });
+  </script>
+</div>
+</body>
+</html>
+</html>
